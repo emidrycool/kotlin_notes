@@ -71,6 +71,8 @@ fun main() {
 ```
 
 ## Kotlin 对 Jetpack Compose 的支持
+### 高阶函数和lambda表达式
+
 Kotlin 支持[高阶函数](https://kotlinlang.org/docs/reference/lambdas.html)，即接收其他函数作为参数的函数。Compose 在此方法的基础上构建而成。例如，[`Button`](https://developer.android.google.cn/reference/kotlin/androidx/compose/material/package-summary?hl=zh-cn#Button(kotlin.Function0,androidx.compose.ui.Modifier,kotlin.Boolean,androidx.compose.foundation.interaction.MutableInteractionSource,androidx.compose.material.ButtonElevation,androidx.compose.ui.graphics.Shape,androidx.compose.foundation.BorderStroke,androidx.compose.material.ButtonColors,androidx.compose.foundation.layout.PaddingValues,kotlin.Function1)) 可组合函数提供了一个 `onClick` lambda 参数。该参数的值是一个函数，当用户点击按钮时，按钮会调用该函数：
 
 ```kotlin
@@ -93,7 +95,6 @@ Button(
 ) { /* ... */ }
 ```
 
-### 高阶函数和lambda表达式
 #### 尾随lambda
 
 Kotlin 提供了一种特殊语法来调用最后一个参数为 lambda 的高阶函数。如果您要将一个 lambda 表达式作为该参数传递，您可以使用尾随 lambda 语法。您应将 lambda 表达式放在圆括号后面，而不是将其放在圆括号内。这是 Compose 中的一种常见情况，因此您需要熟悉代码是什么样子的。
