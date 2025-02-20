@@ -136,3 +136,81 @@ Column {
 
 此语法在 Compose 中十分常见，尤其是对于诸如 `Column` 之类的布局元素。最后一个参数是一个 lambda 表达式，它用于定义元素的子元素，这些子元素在函数调用后在大括号中指定。
 
+## Kotlin的可见性修饰符
+
+Kotlin默认的可见性是public
+
+### 为属性指定可见性修饰符
+
+语法：
+
+```kotlin
+modifier var name: dataType =  initialValue
+```
+
+也可以将可见性修饰符设置为 setter 函数
+
+```kotlin
+var name: dataType =  initialValue
+	modifier set(value) {
+        body
+    }
+```
+
+不会在 `set()` 函数中执行任何操作或检查，只需将 `value` 形参赋给 `field` 变量时，您可以省略 `set()` 函数的圆括号和主体：
+
+```kotlin
+var name: dataType =  initialValue
+	modifier set
+
+//===================================
+open class SmartDevice(val name: String, val category: String) {
+
+    ...
+
+    var deviceStatus = "online"
+        protected set
+
+    ...
+}
+```
+
+### 为方法指定可见性修饰符
+
+语法：
+
+```kotlin
+modifier fun name() {
+    body
+}
+```
+
+### 为构造函数指定可见性修饰符
+
+语法：
+
+```kotlin
+class name modifier constructor(parameters) {
+    body
+}
+```
+
+### 为类指定可见性修饰符
+
+语法：
+
+```kotlin
+modifier class name {
+    body
+}
+```
+
+
+
+|   修饰符    | 可在相同类中访问 | 可在子类中访问 | 可在相同模块中访问 | 可在模块之外访问 |
+| :---------: | ---------------- | -------------- | ------------------ | ---------------- |
+|  `private`  | √                | ×              | ×                  | ×                |
+| `protected` | √                | √              | ×                  | ×                |
+| `internal`  | √                | √              | √                  | ×                |
+|  `public`   | √                | √              | √                  | √                |
+
