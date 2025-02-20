@@ -136,6 +136,77 @@ Column {
 
 此语法在 Compose 中十分常见，尤其是对于诸如 `Column` 之类的布局元素。最后一个参数是一个 lambda 表达式，它用于定义元素的子元素，这些子元素在函数调用后在大括号中指定。
 
+## 定义构造函数
+
+### 默认构造函数
+
+默认构造函数不含形参。定义默认构造函数的做法如以下代码段所示：
+
+```kotlin
+class SmartDevice constructor() {
+    ...
+}
+```
+
+Kotlin 旨在简化代码，因此，如果构造函数中没有任何注解或可见性修饰符，您可以移除 `constructor` 关键字。如果构造函数中没有任何形参，您还可以移除圆括号，如以下代码段所示：
+
+```kotlin
+class SmartDevice {
+    ...
+}
+```
+
+Kotlin 编译器会自动生成默认构造函数。您不会在自己的代码中看到自动生成的默认构造函数，因为编译器会在后台进行添加。
+
+### 定义形参化构造函数
+
+```kotlin
+class SmartDevice(val name: String, val category: String) {
+    
+}
+```
+
+---
+
+```kotlin
+class SmartTvDevice(deviceName: String, deviceCategory: String) :
+    SmartDevice(name = deviceName, category = deviceCategory) {
+}
+```
+
+`SmartTvDevice` 的 `constructor` 定义没有指定属性是可变的还是不可变的，这意味着，`deviceName` 和 `deviceCategory` 形参只是 `constructor` 形参，而不是类属性。您无法在类中使用这些形参，只能将其传递给父类构造函数。
+
+## 类与类之间的关系
+
+### IS-A关系（继承）
+
+如果在 `SmartDevice` 父类和 `SmartTvDevice` 子类之间指定 IS-A 关系，即表示 `SmartDevice` 父类可以执行的操作，`SmartTvDevice` 子类也可执行。这种关系是单向的，因此可以说每个智能电视“都是”智能设备，但不能说每个智能设备“都是”智能电视。IS-A 关系的代码表示形式如以下代码段所示：
+
+```kotlin
+// Smart TV IS-A smart device.
+class SmartTvDevice : SmartDevice() {
+}
+```
+
+请不要只为了实现代码的可重用性而使用继承。在做出决定之前，请检查这两个类彼此是否相关。如果两者表现出某种关系，请检查是否确实符合 IS-A 关系的定义。不妨问问自己，“我可以说子类是父类吗？”例如，Android“是”操作系统。
+
+### HAS-A关系（组合）
+
+HAS-A 关系是指定两个类之间的关系的另一种方式。例如，您可能要使用住宅中的智能电视。在这种情况下，智能电视和住宅之间存在某种关系。住宅中包含智能设备，即住宅“拥有”智能设备。两个类之间的 HAS-A 关系也称为“组合”。
+
+```kotlin
+// The SmartHome class HAS-A smart TV device.
+class SmartHome(val smartTvDevice: SmartTvDevice) {
+    fun turnOnTv() {
+        smartTvDevice.turnOn()
+    }
+
+    fun turnOffTv() {
+        smartTvDevice.turnOff()
+    }
+}
+```
+
 ## Kotlin的可见性修饰符
 
 Kotlin默认的可见性是public
